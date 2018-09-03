@@ -11,5 +11,20 @@
 <body>
     <input type="text" id='text'>
 </body>
+<script src='../js/jquery-1.9.1.js'></script>
+<script>
+    var text = document.querySelector('#text')
+    text.oninput = function() {
+        var val = $(this).val()
+        console.log(val)
+        $.ajax({
+            url: '/api/first?' + 'value=' + val,
+            dataType: 'json',
+            success: function(cs) {
+                console.log(cs)
+            }
+        })
+    }
+</script>
 
 </html>
