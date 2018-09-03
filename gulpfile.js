@@ -6,7 +6,10 @@ var ysjs = require('gulp-uglify')
 var fs = require('fs')
 var path = require('path')
 var url = require('url')
-console.log(ysjs)
+var cs = {
+        "code": 0,
+        "nr": ["八维教育", "八维绩效", "八维技校", "八神", "八一建军节", "八询老汉", "八岁女孩", "八月瓜"]
+    }
     //压缩css
 gulp.task('yscss', function() {
         return gulp.src('./src/sass/*.scss')
@@ -38,9 +41,20 @@ gulp.task('server', function() {
                 }
                 //动态内容
                 if (pathname == '/api/first') {
-                    var nr = url.parse(req.url, true).query.value
-                    console.log(nr)
-                    res.end(JSON.stringify({ code: 0, msg: cs }))
+                    var yh = url.parse(req.url, true).query.value
+                    var arr = []
+                    if (yh) {
+                        cs.nr.forEach(function(v) {
+                            if (v.match(yh)) {
+                                arr.push(v)
+                            }
+                        })
+                        res.end(JSON.stringify({ code: 0, msg: arr }))
+                    } else {
+                        res.end(JSON.stringify({ code: 1 }))
+                    }
+
+
                 } else {
                     pathname = pathname == '/' ? 'html/index.html' : pathname
                     res.end(fs.readFileSync(path.join(__dirname, 'src', pathname)))

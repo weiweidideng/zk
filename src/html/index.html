@@ -7,13 +7,22 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
 </head>
+<style>
+    * {
+        list-style: none;
+    }
+</style>
 
 <body>
     <input type="text" id='text'>
+    <ul id="list">
+
+    </ul>
 </body>
 <script src='../js/jquery-1.9.1.js'></script>
 <script>
     var text = document.querySelector('#text')
+    var list = document.querySelector('#list')
     text.oninput = function() {
         var val = $(this).val()
         console.log(val)
@@ -22,6 +31,17 @@
             dataType: 'json',
             success: function(cs) {
                 console.log(cs)
+                if (cs.code == 0) {
+                    var html = ''
+                    cs.msg.forEach(function(v) {
+                        html += '<li>' + v + '</li>'
+                    })
+                    $('#list').html(html)
+                } else {
+                    $('#list').html('')
+                }
+
+
             }
         })
     }
